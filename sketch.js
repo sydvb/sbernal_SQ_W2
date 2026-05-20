@@ -12,15 +12,21 @@
 //   - Adding a new platform = adding one line of data
 //   - Later we can load this data from a JSON file instead
 // ------------------------------------------------------------
+
+let width = 1400;
+let height = 700;
+
 let platforms = [
   // { x, y, w, h }
-  { x: 0, y: 410, w: 800, h: 40 }, // ground (full width floor)
-  { x: 80, y: 310, w: 120, h: 16 }, // left low platform
-  { x: 280, y: 240, w: 140, h: 16 }, // centre platform
-  { x: 500, y: 170, w: 120, h: 16 }, // right high platform
-  { x: 160, y: 150, w: 100, h: 16 }, // left high platform
-  { x: 360, y: 320, w: 110, h: 16 }, // centre low platform
-  { x: 620, y: 290, w: 130, h: 16 }, // far right platform
+  { x: 0, y: height - 80, w: width, h: 40 }, // ground (full width floor)
+  { x: 80, y: 550, w: 140, h: 20 }, // left low platform
+  { x: 250, y: 490, w: 140, h: 20 }, // centre platform
+  { x: 500, y: 380, w: 120, h: 20 }, // right high platform
+  { x: 600, y: 200, w: 140, h: 20 }, // centre platform
+  { x: 360, y: 320, w: 110, h: 20 }, // centre low platform
+  { x: 700, y: 350, w: 80, h: 20 }, // teleport platform
+  { x: 900, y: 300, w: 100, h: 20 }, // left high platform
+  { x: 1100, y: 340, w: 50, h: 20 }, // rightmost platform
 ];
 
 // ------------------------------------------------------------
@@ -54,10 +60,9 @@ const GRAVITY = 0.6; // downward force added to vy every frame
 
 // Blob animation time — increases each frame to animate the wobble
 let blobT = 0;
-let mountain;
 
 // Platform colour stored as an array so it can be reused easily
-const PLATFORM_COLOR = [255, 160, 50]; // warm orange
+const PLATFORM_COLOR = [70, 53, 117]; // deep purple
 
 function preload() {
   feather = loadImage("/assets/images/feather.png");
@@ -70,7 +75,7 @@ function preload() {
 // Sets up the canvas and positions the player on the ground.
 // ============================================================
 function setup() {
-  createCanvas(1400, 800);
+  createCanvas(width, height);
 
   // Place player on top of the ground platform (index 0 in the array)
   player.y = platforms[0].y - player.r;
@@ -213,6 +218,11 @@ function resolvePlatformCollisions() {
       player.y = platTop - player.r; // snap to platform surface
       player.vy = 0; // stop falling
       player.onGround = true; // allow jumping again
+
+      if (i == 6) {
+        player.x = 30;
+        player.y = platforms[0].y - player.r;
+      }
     }
   }
 }
@@ -243,30 +253,8 @@ function drawPlatforms() {
 function drawPlayer() {
   push(); // save current drawing settings
 
-  fill(0, 200, 180); // teal
-  noStroke();
-
-  beginShape();
-  let numPoints = 48; // more points = smoother shape
-  for (let i = 0; i < numPoints; i++) {
-    let angle = (TWO_PI / numPoints) * i;
-
-    // noise() returns a smooth random value between 0 and 1.
-    // We use it to push each vertex in or out slightly.
-    let noiseVal = noise(cos(angle) * 0.8 + blobT, sin(angle) * 0.8 + blobT);
-
-    // map() converts noise (0–1) to a radius offset (-7 to +7 pixels)
-    let r = player.r + map(noiseVal, 0, 1, -7, 7);
-
-    // Convert polar coordinates (angle, radius) to x/y
-    vertex(player.x + cos(angle) * r, player.y + sin(angle) * r);
-  }
-  endShape(CLOSE);
-
-  // Draw two simple eyes
-  fill(10);
-  ellipse(player.x - 7, player.y - 5, 7, 7);
-  ellipse(player.x + 7, player.y - 5, 7, 7);
+  imageMode(CENTER);
+  image(feather, player.x, player.y, 70, 70);
 
   pop(); // restore drawing settings
 }
