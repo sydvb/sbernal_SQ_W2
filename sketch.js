@@ -14,8 +14,8 @@
 // ------------------------------------------------------------
 let platforms = [
   // { x, y, w, h }
-  { x: 0,   y: 410, w: 800, h: 40 }, // ground (full width floor)
-  { x: 80,  y: 310, w: 120, h: 16 }, // left low platform
+  { x: 0, y: 410, w: 800, h: 40 }, // ground (full width floor)
+  { x: 80, y: 310, w: 120, h: 16 }, // left low platform
   { x: 280, y: 240, w: 140, h: 16 }, // centre platform
   { x: 500, y: 170, w: 120, h: 16 }, // right high platform
   { x: 160, y: 150, w: 100, h: 16 }, // left high platform
@@ -37,8 +37,8 @@ let player = {
   r: 20, // visual radius for blob drawing and collision
 
   // Movement tuning — change these to adjust how the game feels
-  speed: 0.55,    // horizontal acceleration per frame
-  maxSpeed: 4.5,  // maximum horizontal speed
+  speed: 0.55, // horizontal acceleration per frame
+  maxSpeed: 4.5, // maximum horizontal speed
   jumpForce: -12, // upward velocity applied when jumping (negative = upward)
   friction: 0.78, // horizontal slowdown when no key is pressed (0–1, lower = more friction)
 
@@ -54,6 +54,7 @@ const GRAVITY = 0.6; // downward force added to vy every frame
 
 // Blob animation time — increases each frame to animate the wobble
 let blobT = 0;
+let feather = loadImage("assets/feather.png");
 
 // Platform colour stored as an array so it can be reused easily
 const PLATFORM_COLOR = [255, 160, 50]; // warm orange
@@ -100,10 +101,12 @@ function draw() {
 // ------------------------------------------------------------
 function handleInput() {
   // --- Horizontal movement ---
-  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) { // LEFT or A
+  if (keyIsDown(LEFT_ARROW) || keyIsDown(65)) {
+    // LEFT or A
     player.vx -= player.speed;
   }
-  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) { // RIGHT or D
+  if (keyIsDown(RIGHT_ARROW) || keyIsDown(68)) {
+    // RIGHT or D
     player.vx += player.speed;
   }
 
@@ -126,7 +129,8 @@ function handleInput() {
   // --- Jump ---
   // The player can only jump when standing on the ground (onGround = true).
   // This prevents jumping again mid-air.
-  if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && player.onGround) { // UP or W
+  if ((keyIsDown(UP_ARROW) || keyIsDown(87)) && player.onGround) {
+    // UP or W
     player.vy = player.jumpForce;
     player.onGround = false;
   }
@@ -182,14 +186,14 @@ function resolvePlatformCollisions() {
     let p = platforms[i];
 
     // Player's bounding box edges
-    let playerLeft   = player.x - player.r;
-    let playerRight  = player.x + player.r;
+    let playerLeft = player.x - player.r;
+    let playerRight = player.x + player.r;
     let playerBottom = player.y + player.r;
 
     // Platform edges
-    let platLeft  = p.x;
+    let platLeft = p.x;
     let platRight = p.x + p.w;
-    let platTop   = p.y;
+    let platTop = p.y;
 
     // 1. Check horizontal overlap
     let overlapsHorizontally = playerRight > platLeft && playerLeft < platRight;
@@ -198,14 +202,12 @@ function resolvePlatformCollisions() {
     // The small tolerance (+ 20) prevents the player clipping through
     // fast-moving platforms or getting stuck on edges.
     let landingOnTop =
-      player.vy >= 0 &&
-      playerBottom >= platTop &&
-      playerBottom <= platTop + 20;
+      player.vy >= 0 && playerBottom >= platTop && playerBottom <= platTop + 20;
 
     if (overlapsHorizontally && landingOnTop) {
       player.y = platTop - player.r; // snap to platform surface
-      player.vy = 0;                 // stop falling
-      player.onGround = true;        // allow jumping again
+      player.vy = 0; // stop falling
+      player.onGround = true; // allow jumping again
     }
   }
 }
