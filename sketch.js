@@ -13,12 +13,12 @@
 //   - Later we can load this data from a JSON file instead
 // ------------------------------------------------------------
 
-let width = 1400;
-let height = 700;
+let canvasw = 1400;
+let canvash = 700;
 
 let platforms = [
   // { x, y, w, h }
-  { x: 0, y: height - 80, w: width, h: 40 }, // ground (full width floor)
+  { x: 0, y: canvash - 80, w: canvasw, h: 40 }, // ground (full width floor)
   { x: 80, y: 550, w: 140, h: 20 }, // left low platform
   { x: 250, y: 490, w: 140, h: 20 }, // centre platform
   { x: 500, y: 380, w: 120, h: 20 }, // right high platform
