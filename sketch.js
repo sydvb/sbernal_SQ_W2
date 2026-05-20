@@ -54,10 +54,15 @@ const GRAVITY = 0.6; // downward force added to vy every frame
 
 // Blob animation time — increases each frame to animate the wobble
 let blobT = 0;
-let feather = loadImage("assets/feather.png");
+let mountain;
 
 // Platform colour stored as an array so it can be reused easily
 const PLATFORM_COLOR = [255, 160, 50]; // warm orange
+
+function preload() {
+  feather = loadImage("/assets/images/feather.png");
+  mountain = loadImage("/assets/images/mountain-sunset.jpg");
+}
 
 // ============================================================
 // setup()
@@ -65,7 +70,7 @@ const PLATFORM_COLOR = [255, 160, 50]; // warm orange
 // Sets up the canvas and positions the player on the ground.
 // ============================================================
 function setup() {
-  createCanvas(800, 450);
+  createCanvas(1400, 800);
 
   // Place player on top of the ground platform (index 0 in the array)
   player.y = platforms[0].y - player.r;
@@ -78,7 +83,7 @@ function setup() {
 // apply physics, resolve collisions, and draw everything.
 // ============================================================
 function draw() {
-  background(10);
+  background(mountain);
 
   handleInput();
   applyPhysics();
