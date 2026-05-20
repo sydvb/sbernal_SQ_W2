@@ -65,8 +65,8 @@ let blobT = 0;
 const PLATFORM_COLOR = [70, 53, 117]; // deep purple
 
 function preload() {
-  feather = loadImage("/assets/images/feather.png");
-  mountain = loadImage("/assets/images/mountain-sunset.jpg");
+  feather = loadImage("/assets/images/feather.png"); // [1]
+  mountain = loadImage("/assets/images/mountain-sunset.jpg"); // [2]
 }
 
 // ============================================================
@@ -266,7 +266,7 @@ function drawPlayer() {
 // how to interact without needing external instructions.
 // ------------------------------------------------------------
 function drawHUD() {
-  fill(180);
+  fill(240);
   noStroke();
   textSize(13);
   textAlign(LEFT);
