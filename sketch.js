@@ -75,7 +75,7 @@ function preload() {
 // Sets up the canvas and positions the player on the ground.
 // ============================================================
 function setup() {
-  createCanvas(width, height);
+  createCanvas(canvasw, canvash);
 
   // Place player on top of the ground platform (index 0 in the array)
   player.y = platforms[0].y - player.r;
