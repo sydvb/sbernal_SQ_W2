@@ -15,7 +15,6 @@ Move: Arrow Keys or WASD; Jump: W or Up Arrow
 | File | Source |
 | -------------------------------- | -------------------------------------------------------------------------- |
 |`assets/images/mountain-sunset.jpg`| Sourced from https://www.magnific.com/premium-vector/pixel-art-flaming-feather-vibrant-retro-gaming-vector-graphic_358711642.htm |
-
 |`assets/images/feather.png`| Sourced from https://unsplash.com/photos/overlooking-view-of-mountains-and-sunrise-VWxiaKn-lVc |
 
 ## References
